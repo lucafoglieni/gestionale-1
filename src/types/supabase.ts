@@ -9,6 +9,256 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      customers: {
+        Row: {
+          address: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_categories: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          category_id: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          price: number
+          properties: Json | null
+          type: string
+          unit_of_measure: string
+          updated_at: string | null
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          price: number
+          properties?: Json | null
+          type?: string
+          unit_of_measure?: string
+          updated_at?: string | null
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          price?: number
+          properties?: Json | null
+          type?: string
+          unit_of_measure?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quote_items: {
+        Row: {
+          accessories: Json | null
+          created_at: string | null
+          description: string | null
+          finish: string | null
+          height: number | null
+          id: string
+          material: string | null
+          name: string
+          product_id: string | null
+          quantity: number | null
+          quote_id: string | null
+          total_price: number
+          unit_price: number
+          updated_at: string | null
+          width: number | null
+        }
+        Insert: {
+          accessories?: Json | null
+          created_at?: string | null
+          description?: string | null
+          finish?: string | null
+          height?: number | null
+          id?: string
+          material?: string | null
+          name: string
+          product_id?: string | null
+          quantity?: number | null
+          quote_id?: string | null
+          total_price: number
+          unit_price: number
+          updated_at?: string | null
+          width?: number | null
+        }
+        Update: {
+          accessories?: Json | null
+          created_at?: string | null
+          description?: string | null
+          finish?: string | null
+          height?: number | null
+          id?: string
+          material?: string | null
+          name?: string
+          product_id?: string | null
+          quantity?: number | null
+          quote_id?: string | null
+          total_price?: number
+          unit_price?: number
+          updated_at?: string | null
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_items_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotes: {
+        Row: {
+          created_at: string | null
+          customer_id: string | null
+          discount_amount: number | null
+          final_amount: number | null
+          id: string
+          notes: string | null
+          quote_number: string
+          status: string | null
+          tax_amount: number | null
+          tax_rate: number | null
+          total_amount: number | null
+          updated_at: string | null
+          user_id: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_id?: string | null
+          discount_amount?: number | null
+          final_amount?: number | null
+          id?: string
+          notes?: string | null
+          quote_number: string
+          status?: string | null
+          tax_amount?: number | null
+          tax_rate?: number | null
+          total_amount?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_id?: string | null
+          discount_amount?: number | null
+          final_amount?: number | null
+          id?: string
+          notes?: string | null
+          quote_number?: string
+          status?: string | null
+          tax_amount?: number | null
+          tax_rate?: number | null
+          total_amount?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           amount: number | null

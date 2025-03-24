@@ -77,7 +77,7 @@ export default function CustomersPage() {
         heading="Clienti"
         text="Gestisci i tuoi clienti"
         buttonLabel="Nuovo Cliente"
-        buttonAction={() => {}}
+        buttonAction="/dashboard/customers/new"
       />
 
       <Card>

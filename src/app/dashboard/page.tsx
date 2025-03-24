@@ -15,6 +15,17 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/supabase/client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import DashboardStats from "@/components/dashboard-stats";
+import ClientFilter from "@/components/client-filter";
+import WorkStatusChart from "@/components/work-status-chart";
+import ClientStatusChart from "@/components/client-status-chart";
+import UpcomingAppointments from "@/components/upcoming-appointments";
+import ActivityLog from "@/components/activity-log";
+import SalesSummary from "@/components/sales-summary";
+import DashboardPerformance from "@/components/dashboard-performance";
+import { useDebounce } from "@/hooks/use-debounce";
+import { memoryCache } from "@/lib/cache-utils";
+import { throttle } from "@/lib/performance-utils";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -67,25 +78,6 @@ export default function Dashboard() {
     );
   }
 
-  // Dati di esempio per la dashboard
-  const stats = [
-    {
-      title: "Preventivi Totali",
-      value: "24",
-      icon: <FileText className="h-5 w-5 text-blue-500" />,
-    },
-    {
-      title: "Prodotti in Catalogo",
-      value: "48",
-      icon: <Package className="h-5 w-5 text-green-500" />,
-    },
-    {
-      title: "Clienti",
-      value: "12",
-      icon: <Users className="h-5 w-5 text-purple-500" />,
-    },
-  ];
-
   const recentQuotes = [
     {
       id: "Q-2023-001",
@@ -135,20 +127,26 @@ export default function Dashboard() {
       )}
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        {stats.map((stat, i) => (
-          <Card key={i}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
-              {stat.icon}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-            </CardContent>
-          </Card>
-        ))}
+      <DashboardStats />
+
+      {/* Client Filter */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Filtra Clienti</CardTitle>
+          <CardDescription>Cerca e filtra i tuoi clienti</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ClientFilter />
+        </CardContent>
+      </Card>
+
+      {/* Performance Monitoring */}
+      <DashboardPerformance />
+
+      {/* Charts Row */}
+      <div className="grid gap-6 md:grid-cols-2">
+        <WorkStatusChart />
+        <ClientStatusChart />
       </div>
 
       {/* Recent Quotes */}
@@ -211,6 +209,15 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
+      {/* Activity and Appointments Row */}
+      <div className="grid gap-6 md:grid-cols-2">
+        <ActivityLog />
+        <UpcomingAppointments />
+      </div>
+
+      {/* Sales Summary */}
+      <SalesSummary />
+
       {/* Quick Actions */}
       <Card>
         <CardHeader>
@@ -220,7 +227,7 @@ export default function Dashboard() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          <Link href="/dashboard/quotes/new">
+          <Link href="/dashboard/quotes/create">
             <div className="flex flex-col items-center p-4 border rounded-lg hover:bg-muted/50 transition-colors">
               <FileText className="h-8 w-8 text-blue-500 mb-2" />
               <span className="text-sm font-medium">Nuovo Preventivo</span>

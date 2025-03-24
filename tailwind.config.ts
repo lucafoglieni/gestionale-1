@@ -17,6 +17,9 @@ const config = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",

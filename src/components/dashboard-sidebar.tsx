@@ -2,7 +2,18 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { FileText, Grid, Home, Package, Settings, Users } from "lucide-react";
+import {
+  FileText,
+  Grid,
+  Home,
+  Package,
+  Settings,
+  Users,
+  Calendar,
+  BarChart,
+  Activity,
+  Clock,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -25,16 +36,50 @@ export function DashboardSidebar({ className }: SidebarProps) {
       active: pathname === "/dashboard/catalog",
     },
     {
+      label: "Prodotti",
+      icon: <Package className="mr-2 h-4 w-4" />,
+      href: "/dashboard/products",
+      active: pathname === "/dashboard/products",
+    },
+    {
       label: "Preventivi",
       icon: <FileText className="mr-2 h-4 w-4" />,
       href: "/dashboard/quotes",
-      active: pathname === "/dashboard/quotes",
+      active:
+        pathname === "/dashboard/quotes" ||
+        pathname.startsWith("/dashboard/quotes/"),
     },
     {
       label: "Clienti",
       icon: <Users className="mr-2 h-4 w-4" />,
       href: "/dashboard/customers",
-      active: pathname === "/dashboard/customers",
+      active:
+        pathname === "/dashboard/customers" ||
+        pathname.startsWith("/dashboard/customers/"),
+    },
+    {
+      label: "Appuntamenti",
+      icon: <Calendar className="mr-2 h-4 w-4" />,
+      href: "/dashboard/appointments",
+      active: pathname === "/dashboard/appointments",
+    },
+    {
+      label: "Attività",
+      icon: <Activity className="mr-2 h-4 w-4" />,
+      href: "/dashboard/activities",
+      active: pathname === "/dashboard/activities",
+    },
+    {
+      label: "Stato Lavori",
+      icon: <Clock className="mr-2 h-4 w-4" />,
+      href: "/dashboard/work-status",
+      active: pathname === "/dashboard/work-status",
+    },
+    {
+      label: "Statistiche",
+      icon: <BarChart className="mr-2 h-4 w-4" />,
+      href: "/dashboard/statistics",
+      active: pathname === "/dashboard/statistics",
     },
     {
       label: "Impostazioni",

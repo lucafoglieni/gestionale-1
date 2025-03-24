@@ -1,3 +1,5 @@
+"use client";
+
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,8 +19,10 @@ import {
 } from "@/components/ui/table";
 import { Eye, FileText, Download, Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function QuotesPage() {
+  const router = useRouter();
   // Dati di esempio per i preventivi
   const quotes = [
     {
@@ -79,13 +83,15 @@ export default function QuotesPage() {
     },
   ];
 
+  // Navigation is now handled directly in the DashboardHeader component
+
   return (
     <div className="flex flex-col gap-8">
       <DashboardHeader
         heading="Preventivi"
         text="Gestisci i tuoi preventivi"
         buttonLabel="Nuovo Preventivo"
-        buttonAction={() => {}}
+        buttonAction="/dashboard/quotes/create"
       />
 
       <Card>
@@ -124,9 +130,11 @@ export default function QuotesPage() {
                     <TableCell className="text-right">{quote.amount}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button variant="ghost" size="icon">
-                          <Eye className="h-4 w-4" />
-                        </Button>
+                        <Link href={`/dashboard/quotes/${quote.id}`}>
+                          <Button variant="ghost" size="icon">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </Link>
                         <Button variant="ghost" size="icon">
                           <FileText className="h-4 w-4" />
                         </Button>
@@ -181,12 +189,12 @@ export default function QuotesPage() {
           <CardTitle>Azioni Rapide</CardTitle>
         </CardHeader>
         <CardContent className="flex gap-4">
-          <Link href="/dashboard/quotes/new">
-            <Button className="flex items-center gap-2">
+          <Button className="flex items-center gap-2" asChild>
+            <Link href="/dashboard/quotes/create">
               <Plus className="h-4 w-4" />
               Nuovo Preventivo
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <Button variant="outline" className="flex items-center gap-2">
             <Download className="h-4 w-4" />
             Esporta Tutti
